@@ -7,9 +7,10 @@ from flask_admin.contrib.sqla import ModelView
 
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 app.config.from_object('settings_default')
 app.config.from_envvar('SITE_SETTINGS', silent=True)
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
+
 
 db = SQLAlchemy(app)
 
