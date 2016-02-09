@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-import os, psycopg2
+import os, psycopg2, gunicorn
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_admin import Admin
@@ -16,8 +16,9 @@ db = SQLAlchemy(app)
 class Staff(db.Model):
     __tablename__ = 'staff'
     id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, default="current_timestamp")
-    updated_at = db.Column(db.DateTime, onupdate="current_timestamp")
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=True)
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
+        onupdate=db.func.current_timestamp(), nullable=True)
     name = db.Column(db.String(80), unique=True)
     title = db.Column(db.String(80), nullable=True)
     active = db.Column(db.Boolean, default=True)
@@ -28,8 +29,9 @@ class Staff(db.Model):
 class Organisation(db.Model):
     __tablename__ = 'organisation'
     id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, default="current_timestamp")
-    updated_at = db.Column(db.DateTime, onupdate="current_timestamp")
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=True)
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
+        onupdate=db.func.current_timestamp(), nullable=True)
     slug = db.Column(db.String(80), unique=True)
     title = db.Column(db.String(120), nullable=True)
     description = db.Column(db.Text, nullable=True)
@@ -44,10 +46,11 @@ class Organisation(db.Model):
 class ContentBlock(db.Model):
     __tablename__ = 'content_block'
     id = db.Column(db.Text, primary_key=True)
-    created_at = db.Column(db.DateTime, default="current_timestamp")
-    updated_at = db.Column(db.DateTime, onupdate="current_timestamp")
-    name = db.Column(db.String(80))
-    value = db.Column(db.Text, default="")
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=True)
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
+        onupdate=db.func.current_timestamp(), nullable=True)
+    name = db.Column(db.String(80), unique=True)
+    content = db.Column(db.Text, default="")
 
 #class Country(db.Model):
 #   id = db.Column(db.Text, primary_key=True)
