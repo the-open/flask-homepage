@@ -7,7 +7,7 @@ from flask_admin.contrib.sqla import ModelView
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 app.config.from_object('settings_default')
 app.config.from_envvar('SITE_SETTINGS', silent=True)
 
@@ -51,7 +51,7 @@ class ContentBlock(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp(), nullable=True)
     name = db.Column(db.String(80), unique=True)
-    content = db.Column(db.Text, default="")
+    contents = db.Column(db.Text, default="")
 
 #class Country(db.Model):
 #   id = db.Column(db.Text, primary_key=True)
@@ -95,9 +95,29 @@ def contact():
     return render_template("contact.html", site=site, name="contact", )
 
 admin = Admin(app, name="the-open.net", template_mode="bootstrap3")
-admin.add_view(ModelView(Staff, db.session))
-admin.add_view(ModelView(Organisation, db.session))
-admin.add_view(ModelView(ContentBlock, db.session))
+
+class StaffView(ModelView):
+    form_widget_args = dict(description={'class': 'form-control ckeditor'})
+    create_template = 'admin/ck-create.html'
+    edit_template = 'admin/ck-edit.html'
+    form_excluded_columns = ['created_at', 'updated_at']
+
+class OrganisationView(ModelView):
+    form_widget_args = dict(description={'class': 'form-control ckeditor'})
+    create_template = 'admin/ck-create.html'
+    edit_template = 'admin/ck-edit.html'
+    form_excluded_columns = ['created_at', 'updated_at']
+
+class ContentBlockView(ModelView):
+    form_widget_args = dict(description={'class': 'form-control ckeditor'})
+    create_template = 'admin/ck-create.html'
+    edit_template = 'admin/ck-edit.html'
+    form_excluded_columns = ['created_at', 'updated_at']
+
+
+admin.add_view(StaffView(Staff, db.session))
+admin.add_view(OrganisationView(Organisation, db.session))
+admin.add_view(ContentBlockView(ContentBlock, db.session))
 
 if __name__ == "__main__":
     app.run(debug=True)
