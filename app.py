@@ -1,7 +1,10 @@
 from flask import Flask, render_template
-import os
-from datetime import datetime
+import os, psycopg2
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
 
 app = Flask(__name__)
 app.config.from_object('settings_default')
@@ -14,6 +17,7 @@ class Staff(db.Model):
     __tablename__ = 'staff'
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default="current_timestamp")
+    updated_at = db.Column(db.DateTime, onupdate="current_timestamp")
     name = db.Column(db.String(80), unique=True)
     title = db.Column(db.String(80), nullable=True)
     active = db.Column(db.Boolean, default=True)
@@ -25,6 +29,7 @@ class Organisation(db.Model):
     __tablename__ = 'organisation'
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default="current_timestamp")
+    updated_at = db.Column(db.DateTime, onupdate="current_timestamp")
     slug = db.Column(db.String(80), unique=True)
     title = db.Column(db.String(120), nullable=True)
     description = db.Column(db.Text, nullable=True)
@@ -35,6 +40,20 @@ class Organisation(db.Model):
     url = db.Column(db.String(80), nullable=True)
     logo = db.Column(db.String(120), nullable=True)
     coordinates = db.Column(db.String(80), nullable=True)
+
+class ContentBlock(db.Model):
+    __tablename__ = 'content_block'
+    id = db.Column(db.Text, primary_key=True)
+    created_at = db.Column(db.DateTime, default="current_timestamp")
+    updated_at = db.Column(db.DateTime, onupdate="current_timestamp")
+    name = db.Column(db.String(80))
+    value = db.Column(db.Text, default="")
+
+#class Country(db.Model):
+#   id = db.Column(db.Text, primary_key=True)
+#   created_at = db.Column(db.DateTime, default="current_timestamp")
+#   updated_at = db.Column(db.DateTime, onupdate="current_timestamp")
+
 
 site = {
         'domainroot': 'https://sheltered-mountain-64816.herokuapp.com',
@@ -71,6 +90,10 @@ def about():
 def contact():
     return render_template("contact.html", site=site, name="contact", )
 
+admin = Admin(app, name="the-open.net", template_mode="bootstrap3")
+admin.add_view(ModelView(Staff, db.session))
+admin.add_view(ModelView(Organisation, db.session))
+admin.add_view(ModelView(ContentBlock, db.session))
 
 if __name__ == "__main__":
     app.run(debug=True)
