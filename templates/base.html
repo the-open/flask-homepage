@@ -1,29 +1,57 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="static/main.css">
+  <title>OPEN - The Online Progressive engagement Network</title>
+  {% if site %}
+  <meta name="title" content="{{ site.title }}" />
+  <meta name="description" content="{{ site.description }}" />
+  <meta name="keywords" content="{{ site.keywords }}" />
+  <meta property="og:title" content="{{ site.fb_title }}"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="{{ site.fb_site_name }}"/>
+  <meta property="og:description" content="{{ site.fb_description }}" />
+  <meta property="og:url" content="{{ site.domainroot }}" />
+  <meta property="og:image" content="{{ site.domainroot }}/static/img/splash.jpg"/>
+  <link rel="image_src" href="/static/img/splash.jpg" />
+  <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+  {% endif %}
+  <link rel="stylesheet" href="/static/stylesheets/site.css" type="text/css" />
 
-  <title>Abhinay Omkar - {% block title %}{% endblock %}</title>
+  <script src="/static/scripts/jquery.min.js"></script>
+  <script src="/static/scripts/bootstrap.min.js"></script>
 </head>
+<body id="second">
+{% if add_facebook %}
+<div id="fb-root"></div>
 
-<body>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '207341522943149',
+      //pageId     : '869655296485635',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
 
-<section id="main-container">
-    <header id="header">
-      <h1 class="main-title">Abhinay Omkar</h1>
-      <h3 class="main-description">@abhiomkar</h3>
-    </header>
-    <section id="content">
-        {% block content %}{% endblock %}
-    </section>
-    <footer>
-        Made by <a href="http://abhiomkar.in">Abhinay Omkar</a>
-    </footer>
-</section>
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+{% include 'partials/mailchimp2.html' %}
+{% include 'partials/footer.html' %}
 
 </body>
 </html>

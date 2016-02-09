@@ -1,7 +1,147 @@
-{% extends "base.html" %}
-{% block title %}{{ super() }}Home{% endblock %}
+{% extends 'base.html' %}
 {% block content %}
-    <div class="{{ name }}-container">
-        <p>Welcome home!</p>
+<section id="first">
+{% include 'partials/header.html' %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-10 col-md-push-1 col-lg-10 col-lg-push-1">
+      <br>
+      <h1 class="text-success">OPEN is a sisterhood of grassroots campaigning organisations from around the world.</h1>
+      <br><br>
+      <p class="text-info h3-sized"> Our member organisations use a common model of people-powered, national-scale campaigning. They mobilize over 16 million supporters on five continents.</p>
+      <br>
     </div>
+  </div>
+</div>
+</section>
+<section class="overview">
+<div id="map1"></div>
+
+<div class="join-up col-md-3 col-sm-4 text-center well">
+  <h4>Starting your own group?</h4>
+  <br><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Join Up!</button>
+  <br>
+</div>
+</section>
+
+<a name="connect"></a>
+<section class="connect bg-primary">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <h1 class="text-center">Connecting This Global Family Of Organizers</h1>
+      <p>Imagine this is, you know, a pretty, well-curated feed of public pictures that make our network look like an awesome and fun thing to be a part of.</p>
+      <a data-flickr-embed="true" class="embed-responsive-item" href="https://www.flickr.com/photos/128995552@N02/albums/72157648221750004" title="OPEN Summit 2015"><img src="https://farm8.staticflickr.com/7395/16375947176_6f65f36c58_c.jpg" width="800" height="534" alt="OPEN Summit 2015"></a>
+    </div>
+  </div>
+</div>
+</section>
+
+<a name="coordinate"></a>
+<section class="coordinate bg-orange">
+  <div id="map2"></div>
+  <div class="overlays">
+    <h1 class="text-center bg-orange">Coordinating Multinational Campaigns For Global Impact</h1>
+    <ul id="campaign-list" class="nav nav-pills nav-stacked campaign-list">
+      <li><a data-campaign="refugees">Refugees welcome</a></li>
+      <li><a data-campaign="reef">Save the reef</a></li>
+      <li><a data-campaign="tpp">Stop the TPP</a></li>
+      <li><a data-campaign="ttip">Stop TTIP</a></li>
+    </ul>
+  </div>
+</section>
+
+<a name="enhance"></a>
+<section class="enhance bg-green">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 text-center col-sm-push-2">
+      <h1 class="text-center">Enhancing Our Member Organisations With Tech, Training And Strategic Analysis</h1>
+      <p class="h3-sized"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> We&rsquo;re sorry, this section is full of trade secrets. You&rsquo;ll have to join the network to learn more.</p>
+      <button type="button" class="btn btn-white btn-lg" data-toggle="modal" data-target="#myModal">Get In Touch</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<a name="grow"></a>
+<section class="grow">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 text-center">
+      <h1 class="bg-red">Growing The Network By Helping New Organisations Launch And Succeed</h1>
+      <p>Some kind of graph or timeline showing the network grow grow grow.</p>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<section>
+  more sections:
+  <ul>
+    <li>our own newsletter</li>
+    <li>featured news</li>
+    <li>news news</li>
+    <li>facebook feed</li>
+    <li>twitter feed</li>
+  </ul>
+</section>
+<script src='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v2.2.3/mapbox.css' rel='stylesheet' />
+<script>
+
+{# include 'partials/orgs.js' #}
+{# var world = {% include 'partials/world.json' %}; #}
+
+L.mapbox.accessToken = 'pk.eyJ1Ijoic25vb2siLCJhIjoiY2loN2Z4OXlhMHE4c3Vla3RiYjUzOHAxMSJ9.etz4qL0ffKTyPf2bFcHOIA';
+var map1 = L.mapbox.map('map1', 'mapbox.streets', {
+  scrollWheelZoom: false
+}).setView([20, 0], 2);
+var map2 = L.mapbox.map('map2', 'mapbox.streets', {
+  scrollWheelZoom: false,
+  attribution: 'The OPEN'
+}).setView([20, 0], 2);
+
+var pins = L.mapbox.featureLayer().addTo(map1);
+pins.setGeoJSON(orgs);
+pins.on('click',function(e) {
+  map1.panTo(e.layer.getLatLng());
+});
+
+var sampleArray = ['USA','CAN','GBR','DEU','IRL','POL','AUT','SWE','CHE','AUS','NZL','ZAF','COL','VEN','ITA','ROU'];
+var campaigns = {
+  'refugees': {
+    'list': ['USA','CAN','GBR','DEU','IRL','POL','AUT','SWE','CHE','AUS','NZL','ITA','ROU']
+  },
+  'reef': {
+    'list': ['GBR','DEU','AUS']
+  },
+  'tpp': {
+    'list': ['USA','CAN','AUS','NZL']
+  },
+  'ttip': {
+    'list': ['USA','GBR','DEU','IRL','POL','AUT','SWE','CHE','ITA','ROU']
+  }
+};
+var campaignLayers = {};
+$(document).ready(function() {
+$.each(campaigns, function(name, list) {
+  campaignLayers[name] = L.mapbox.featureLayer(world, {
+    style: { weight: 2, fillOpacity: '0' },
+    //className: 'country-tpp',
+    filter: function(feature, layer) { if(campaigns[name].list.indexOf(feature.id) != -1) return true; return false;}
+  }).setZIndex(-1).addTo(map2);
+});
+$('#campaign-list > li > a').on('mouseover', function(){
+  campaignLayers[this.dataset.campaign].setStyle({fillOpacity: 1});
+});
+$('#campaign-list > li > a').on('mouseout', function(){
+  campaignLayers[this.dataset.campaign].setStyle({fillOpacity: 0});
+});
+});
+
+</script>
+<script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
 {% endblock %}

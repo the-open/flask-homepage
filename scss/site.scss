@@ -1,0 +1,269 @@
+$navbar-default-border: transparent;
+$brand-danger: rgb(205,10,33);
+$brand-warning: rgb(216,96,39);
+$brand-success: rgb(164,200,44);
+$brand-info: rgb(0,144,208);
+$brand-primary: $brand-info;
+$gray-lighter: #E3E3E3;
+$well-border-stroke: 1px solid $gray-lighter;
+@import 'variables';
+@import 'bootstrap';
+@import 'bootswatch';
+@import 'flags';
+
+#mc_embed_signup input, input.btn, #mce-responses .response { margin-bottom: 1em; }
+body { position: relative; } // for scrollspy
+.show-now { background-color: green !important; }
+.hide-sibs { background-color: gray !important; }
+.org-logo { margin: 1em 0 10px 15px; max-height: 80px; max-width: 200px; }
+.four-strands { width: 120px; margin-right: 15px; margin-bottom: 1em; }
+span.flag:before { content: " "; }
+h1 { color: $gray; } h3 { color: $gray-dark; }
+body > section, body > header {
+  padding-top: 3.2vw;
+  padding-bottom: 3.2vw;
+  border-top: $well-border-stroke;
+}
+body > section#main {
+  padding-top: 1.4vw;
+  padding-bottom: 1.8vw;
+}
+body > footer {
+  background-color: #f5f5f5;
+  border: 0 solid transparent;
+  border-top: $well-border-stroke;
+  padding: 4vw;
+  margin: 4vw 0 0 0;
+  border-radius: 0;
+  ul.list-unstyled>li {
+    &>a {
+      @extend h4;
+      font-weight: 300;
+      @extend .text-muted;
+    }
+    &:first-child > a { font-weight: 700; }
+  }
+  p.copyright {
+    @extend h5, .text-muted;
+    padding-top: 2em; padding-bottom: 2em;
+  }
+}
+#sidebar {
+  display: flex;
+  position: static;
+}
+#toc {
+  position: relative;
+  &.affix { position: fixed; top: 40px; }
+  .nav {
+    li { line-height: 1.28em; }
+    li+li { margin-top: 4px; }
+    li > a { padding-top: 0; padding-right: 0; padding-bottom: 0; }
+    & > .toc-h1 { font-size: floor(($font-size-h1 * 0.7)); & > a { padding-left: 3px; }}
+    & > .toc-h2 { font-size: floor(($font-size-h2 * 0.6)); & > a { padding-left: 5px; }}
+    & > .toc-h3 { font-size: floor(($font-size-h3 * 0.6)); & > a { padding-left: 10px; }}
+    & > .toc-h4 { font-size: floor(($font-size-h4 * 0.8)); & > a { padding-left: 15px; }}
+    & > .toc-h5 { font-size: floor(($font-size-h5 * 0.9)); & > a { padding-left: 15px; }}
+    & > .toc-h6 { font-size: floor(($font-size-h6 * 1.0)); & > a { padding-left: 15px; }}
+    li.toc-active {
+      border-left: 5px solid $brand-primary;
+    }
+  }
+}
+
+header {
+  .brand {
+    max-height: 80px;
+  }
+  nav ul.navbar-nav > li > a {
+    border: 1px solid transparent;
+  }
+  nav ul.navbar-nav > li > a:hover, nav ul.navbar-nav > li > a:focus {
+    background-color: transparent !important;
+    border: 1px solid $gray-dark;
+  }
+}
+nav.navbar {
+  margin-bottom: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+  &:first-child {
+    margin-top: 0; margin-bottom: 0.5em;
+  }
+}
+.well.case-study {
+  min-height: 140px;
+  color: $brand-info;
+  &:hover {
+    color: $gray-lighter;
+    background-color: $brand-info;
+  }
+}
+@media (max-width:767px) {
+  .left-half, .right-half {
+    text-align: center;
+    border-left: none;
+    border-right: none;
+    margin: 20px;
+  }
+  .left-half {
+    margin-top: 0;
+  }
+  .right-half {
+    margin-bottom: 0;
+  }
+  nav.navbar-default {
+    border-color: transparent;
+    min-height: 0;
+  }
+  header .brand { max-height: 62.84px; }
+  section { padding-top: 20px; padding-bottom: 20px; }
+  .navbar-nav > li > a.btn {
+    padding-top: 10px;
+    margin-top: 9.5px;
+    padding-bottom: 10px;
+    color: white;
+    margin-left: 15px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+}
+@media (min-width:992px) {
+  header .brand {
+    max-height: 6.335vw;
+  }
+}
+@media (min-width:768px) {
+  .navbar-nav > li > a.btn {
+    padding-top: 10px;
+    margin-top: 9.5px;
+    padding-bottom: 10px;
+    color: white;
+    margin-left: 15px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .navbar-nav > li > a {
+    border-radius: $btn-border-radius-base;
+  }
+}
+.big-learn-more-button {
+  margin-top: 120px; margin-bottom: 80px;
+}
+.modal-footer .btn {
+  margin-bottom: 0;
+}
+nav.navbar-default {
+  background-color: transparent;
+}
+main {
+  margin: 4vw 0;
+}
+section#first {
+  position: relative;
+  border: 0 solid transparent;
+  span.img-filter {
+    background-color: rgba(255, 255, 255, 0.9);
+    z-index: 0;
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+  }
+  span.img-cover {
+    background: url('/static/img/dots-background.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    -webkit-filter: brightness(1.5) grayscale(50%);
+    -moz-filter: brightness(1.5) grayscale(50%);
+    -o-filter: brightness(1.5) grayscale(50%);
+    -ms-filter: brightness(1.5) grayscale(50%);
+    filter: brightness(1.5) grayscale(50%);
+  }
+}
+body#second {
+  #map1, #map2 {
+    height: 100vh;
+    width: 100%;
+    @media (min-width: $screen-sm-min) {
+      height: 80vh;
+    }
+  }
+  section.overview {
+    padding: 0;
+    width: 100%;
+    position: relative;
+    .join-up {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+    }
+  }
+  h1 {
+    padding: 10px 0 15px;
+  }
+  section.coordinate {
+    padding: 0;
+    width: 100%;
+    position: relative;
+    .overlays {
+      position: absolute;
+      top: 30px;
+      left: 5%;
+      right: 5%;
+      z-index: 1;
+      height: 70vh;
+    }
+    .campaign-list {
+      @extend .well;
+      width: 180px;
+      position: absolute;
+      bottom: 0;
+      li {
+        .nav-pills & a:hover {
+          background-color: $brand-primary;
+        }
+      }
+    }
+  }
+  section.enhance {
+    min-height: 60vh;
+    padding-top: 15vh;
+    padding-bottom: 15vh;
+    h1, p { margin-bottom: 1em; color: white; }
+  }
+  section.grow { min-height: 60vh; padding-top: 15vh; padding-bottom: 15vh; }
+  .bg-green {
+    @extend .bg-primary;
+    background-color: darken($btn-success-border, 12%);
+    .btn-white {
+      @extend .btn-success;
+      background-color: white;
+      color: darken($btn-success-bg, 10%);
+    }
+  }
+  section.more {
+    .feature {
+      @extend .text-center;
+      h3 { min-height: 60px; }
+    }
+  }
+  h1.bg-red, h1.bg-orange {
+    padding-left: 2vw;
+    padding-right: 2vw;
+  }
+  .bg-red {
+    @extend .bg-primary;
+    @extend .bg-danger;
+    background-color: darken($btn-danger-border, 12%);
+  }
+  .bg-orange {
+    @extend .bg-primary;
+    @extend .bg-warning;
+    background-color: $btn-warning-border;
+  }
+  .h3-sized { font-size: $font-size-h3; }
+  .bg-primary {
+    h1 { color: white; }
+  }
+}

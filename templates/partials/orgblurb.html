@@ -1,0 +1,16 @@
+{% if org %}
+<a name="{{ org.slug }}"></a>
+<p>
+  {% if org.logo %}
+  <img class="img-responsive pull-right org-logo" src="{{ org.logo }}" alt="{{ org.title }}" />
+  {% endif %}
+  <h3>
+    <span class="flag {{ org.code2 }}"></span>
+    {{ org.title }}
+    <span class="small">
+      <a href="{{ org.url }}" title="{{ org.title }}">{{ org.url }}</a>
+    </span>
+  </h3>
+  {{ org.description|striptags }}
+</p>
+{% endif %}

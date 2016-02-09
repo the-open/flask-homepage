@@ -1,0 +1,55 @@
+{% extends 'sidebar.html' %}
+{% block inner %}
+  <h2 title="Why OPEN" id="theory">Why This, Why Now</h2>
+  <p>Every day, OPEN groups enable millions of citizens take action online and offline. As progressive organizers and activists, they face multi-national challenges like climate change, bad trade deals, and eroding access to democracy.Yet the most effective means for citizens to meet these challenges are almost always at the national level, changing public policy, media narratives, and their communities.</p>
+  <p>Each OPEN member organization is an independent group working within its national context. But we problem-solve and innovate together. We share research, tools, and tactics that build our collective power. And we form bonds of trust and respect that allow our disparate organisations to become stronger together.</p>
+
+
+  <hr>
+  <h2 title="Four strands" id="four-strands">The Four Strands</h2>
+  <p>OPEN strengthens the work of network members and helps them overcome shared challenges through a four-point program: Connect, Coordinate, Enhance, Grow.</p>
+
+<div class="row">
+  <div class="col-md-6">
+    <h3 id="connet">Connect</h4>
+    <p><img src="/static/img/4-connect.png" class="pull-left four-strands" /> OPEN connects groups to each other so they can share innovations, technologies, analyses, and lessons learned. These connections speed innovation and magnify impact.</p>
+  </div>
+  <div class="col-md-6">
+    <h3 id="coordinate">Coordinate</h4>
+    <p><img src="/static/img/4-coordinate.png" class="pull-left four-strands" />OPEN facilitates multinational campaigns on issues that cross borders, like climate change, trade, and corporate accountability.</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <img src="http://placehold.it/400x180" class="img-responsive" />
+  </div>
+  <div class="col-md-6">
+    <img src="http://placehold.it/400x180" class="img-responsive" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <h3 id="enhance">Enhance</h4>
+    <p><img src="/static/img/4-enhance.png" class="pull-left four-strands" />OPEN enhances the effectiveness of member organisations with best-in-class technology, training and strategic analysis.</p>
+  </div>
+  <div class="col-md-6">
+    <h3 id="grow">Grow</h4>
+    <p><img src="/static/img/4-grow.png" class="pull-left four-strands" />OPEN helps new organisations launch, thrive, and make a difference in countries all across the globe in record time, bringing new allies and new leaders into the network.</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <img src="http://placehold.it/400x180" class="img-responsive" />
+  </div>
+  <div class="col-md-6">
+    <img src="http://placehold.it/400x180" class="img-responsive" />
+  </div>
+</div>
+  <hr>
+  <h2>Our Team</h2>
+  {% for person in site.staff %}
+  <h3>{{ person.name }} <span class="small">{{ person.location }}</span></h3>
+  <p class="aside"><em>{{ person.title }}, {{ person.email }}</em></p>
+  <p>{{ person.description }}<p>
+  {% endfor %}
+{% endblock %}

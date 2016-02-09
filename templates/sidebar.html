@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+<section id="first">
+{% include 'partials/header.html' %}
+</section>
+<section id="main">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-8 col-lg-9">
+        <h1>{{ title }}</h1>
+        {% block inner %}{% endblock %}
+      </div>
+      <div id="sidebar" class="col-md-4 col-sm-12 col-lg-3 hidden-sm hidden-xs">
+        <div id="toc"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+<script src="/static/scripts/site.js"></script>
+<script>
+$(document).ready(function() {
+
+  $('#toc').toc({
+    'selectors': 'h2,h3,h4,h5', //elements to use as headings
+    'listType': '<ul class="nav nav-stacked"><ul/>',
+    'container': 'section#main', //element to find all selectors in
+    'prefix': 'toc', //prefix for anchor tags and class names
+    'timeout': 20, //scroll delay before recalculating highlight
+    'activeClass': 'toc-active',
+    'onHighlight': function(el) {
+      var $ul = $('#toc > ul');
+
+    },
+    'highlightOnScroll': true, //add class to heading that is currently in focus
+    'highlightOffset': 100, //offset to trigger the next headline
+    'anchorName': function(i, heading, prefix) { //custom function for anchor name
+      return prefix+i;
+    },
+    'headerText': function(i, heading, $heading) { //custom function building the header-item text
+      return $heading[0].title || $heading.contents().eq(0).text();
+    },
+    'itemClass': function(i, heading, $heading, prefix) { // custom function for item class
+      return 'toc-' + $heading[0].tagName.toLowerCase();
+    }
+  });
+  $('#toc').affix({
+    offset: {
+      top: function() { return $('section#first').outerHeight(true); },
+      bottom: function() { return $('footer').outerHeight(true); }
+    }
+  });
+  function setTocWidth() {
+    tocWidth = parseInt($('#toc').closest('.row').width()) / 4 - 30;
+    $('#toc').css({ 'width': tocWidth });
+  }
+  $(window).on('resize', function() { setTocWidth(); });
+  setTocWidth();
+  //$('body').scrollspy({ target: '#toc' });
+  //$('#toc').on('activate.bs.scrollspy', function () {
+    //console.log($(this).find('.active'));
+    //console.log('hi');
+  //});
+
+});
+</script>
+{% endblock %}
