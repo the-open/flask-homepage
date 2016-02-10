@@ -21,8 +21,10 @@
 <div id="map1"></div>
 
 <div class="join-up col-md-3 col-sm-4 text-center well">
+  {% if content.frontpage_join %}
   <h4>{{ content.frontpage_join.contents|striptags }}</h4>
   <br><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">{{ content.frontpage_join.title }}</button>
+  {% endif %}
   <br>
 </div>
 </section>
