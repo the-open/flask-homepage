@@ -46,12 +46,24 @@ class Organisation(db.Model):
 
 class ContentBlock(db.Model):
     __tablename__ = 'content_block'
-    id = db.Column(db.Text, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp())
     name = db.Column(db.String(80), unique=True)
+    title = db.Column(db.String(200), nullable=True)
+    image = db.Column(db.String(200), nullable=True)
     contents = db.Column(db.Text, default="")
+
+    @classmethod
+    def all(cls):
+        blocks = cls.query.all()
+        res = {}
+        for block in blocks:
+            res[block.name] = {}
+            for key, value in block:
+                res[block.name][key] = value
+        return res
 
 #class Country(db.Model):
 #   id = db.Column(db.Text, primary_key=True)
@@ -71,23 +83,30 @@ site = {
 
 @app.route("/")
 def home():
-    return render_template("home.html", site=site, name="home", )
+    content = ContentBlock.all()
+    return render_template("home.html", site=site, name="home",
+            content=content,
+        )
 
 @app.route("/organisations")
 def organisations():
-    orgs = {}
+    content = ContentBlock.all()
+    orgs = Organisation.query.all()
     return render_template("organisations.html", site=site, name="organisations",
             add_facebook=True,
             title="OPEN Member Organisations",
+            content=content,
             orgs=orgs,
         )
 
 @app.route("/about")
 def about():
+    content = ContentBlock.all()
     staff = Staff.query.filter(Staff.active==True).all()
         #.order_by(Staff.order.desc())
     return render_template("about.html", site=site, name="about",
             title="About OPEN",
+            content=content,
             staff=staff,
         )
 
@@ -110,7 +129,7 @@ class OrganisationView(ModelView):
     form_excluded_columns = ['created_at', 'updated_at']
 
 class ContentBlockView(ModelView):
-    form_widget_args = dict(description={'class': 'form-control ckeditor'})
+    form_widget_args = dict(contents={'class': 'form-control ckeditor'})
     create_template = 'admin/ck-create.html'
     edit_template = 'admin/ck-edit.html'
     form_excluded_columns = ['created_at', 'updated_at']

@@ -48,25 +48,13 @@
 {% endif %}
 {% endif %}
 
-<hr>
-<h2>Defining an OPEN Organisation</h2>
-<p>Each OPEN organization is completely autonomous and adapts methodology to match the unique context. However, all OPEN groups share eight common ways of working: a common DNA that allows them to work as a coherent and productive network.</p>
-<h3>Progressive</h3>
-<p>OPEN members move society towards greater economic and social equality, environmental sustainability, peaceful coexistence, and democratic freedom. OPEN groups do not demand adherence from all members on all points. They weave a values-coherent community through many different topical campaign opportunities, allowing campaigns to cross-pollinate organically.
-<h3>People-Powered</h3>
-<p>OPEN pursues an outside power theory of change, which primarily relies on the collective force of large-scale citizen participation to move public and private sector decision-makers towards just outcomes. This is distinguished from an inside access theory of change, which relies on a special set of inside actors to win change through elite channels. Both theories have their place, but the network chooses to prioritize the former because it is more durable over time, and it more closely matches OPEN’s values regarding power distribution in a democracy.
-<h3>Member-Led</h3>
-<p> OPEN organization’s agendas are set by the members themselves. Organisations achieve this though rigorous testing, response benchmarks, polling, voting, and anecdotal inputs. Member participation and the cultivation of a strong member experience generate the level of affinity and participation necessary. Many groups also equip members to start and run their own campaigns, and then assign organization resources to promote those campaigns.</p>
-<h3>Multi-Issue</h3>
-<p> People and nations, unlike most organisations, focus on and care about many different issues based on their set of values. While people choose some issues as the most important, the daily news presents them with a range of topics that will inflame their support or ire. The energy produced in response is what OPEN organisations engage in order to grow and to create change wherever change is most urgent and possible. OPEN organisations bring a surge of power to single-issue campaigns when it matters most.</p>
-<h3>Nimble</h3>
-<p>When news stories, upcoming legislative decisions, or other events make action urgent, OPEN groups give their members a means to take immediate action. Groups must be decisive and act quickly. OPEN’s member organisations therefore operate in a low-bureaucracy, highempowerment management model.</p>
-<h3>Full-Spectrum</h3>
-<p> Full-spectrum campaigning allows members to put all of their assets to work for the social and political change they believe in. These include opinions, talents, social networks, specific knowledge, votes, and material resources, including money. OPEN organisations use digital means such as email, web platforms, social media, and SMS to present information and engagement opportunities. However, their tactics frequently draw people into offline action.</p>
-<h3>Independent</h3>
-<p> OPEN groups remain fiercely independent from any political party. Praise or criticism, support or opposition, are granted purely on the basis of issue performance. This independence also means that OPEN organisations must ultimately be financially beholden only to the members themselves through small individual contributions. All five founding OPEN organisations achieved this mark within 3.5 years of launch.</p>
-<h3>Digital</h3>
-<p> OPEN organisations communicate and organize digitally because digital technology allows for accessible, scalable, and rapid engagement. They prioritize investing in the best possible platforms and innovation. At the same time, each new tool is evaluated from the perspective of strategic utility and accessibility to individual members, who are generally not early adopters. </p>
+{% if content.defining_an_open_org %}
+  <hr>
+  <h2 id="{{ content.defining_an_open_org.name }}">
+    {{ content.defining_an_open_org.title }}
+  </h2>
+  {{ content.defining_an_open_org.contents|safe }}
+{% endif %}
 
 <hr>
 <a name="feed"></a>
