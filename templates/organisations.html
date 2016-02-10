@@ -1,64 +1,107 @@
 {% extends 'sidebar.html' %}
 {% block inner %}
-<a name="about"></a>
-<h2>Founding Organisations</h2>
-<p>The the OPEN Network was founded in 2013, the five organisations who came together to create this network have been around for years longer, with the first group founding in 1998, and others coming along in 2003, 2006, 2009, and 2011. OPEN&rsquo;s founding organisations now represent 1 out of every 15 voters in their respective countries.</p>
-{% if orgs %}
-{% for org in orgs %}
-  {% if org.category == 'core' %}
-    {% include 'partials/orgblurb.html' %}
+
+{% if content.founding_organisations and not content.founding_organisations.hidden %}
+  {% with %}
+    {% set block = content.founding_organisations %}
+    <h2 id="{{ block.name }}">
+      {{ block.title }}
+    </h2>
+    {{ block.contents|safe }}
+  {% endwith %}
+
+  {% if orgs %}
+    {% for org in orgs %}
+      {% if org.category == 'core' %}
+        {% include 'partials/orgblurb.html' %}
+      {% endif %}
+    {% endfor %}
   {% endif %}
-{% endfor %}
+
 {% endif %}
 
-{% if 0 %}
-<h2>Full Members</h2>
-<p>Organisations that are established along the same guiding principals as OPEN&rsquo;s founding organisations, which reach a certain threshold of membership size, organisational maturity and financial stability, can be considered for full membership, and are admitted based on a vote of our Core Group, which is made up of representatives from the other member organisations.</p>
-{% if orgs %}
-{% for org in orgs %}
-  {% if org.category == 'full' %}
-    {% include 'partials/orgblurb.html' %}
-  {% endif %}
-{% endfor %}
-{% endif %}
-{% endif %}
-
-<hr>
-<h2>Startup Organisations</h2>
-<p>Startups are groups that have just recently launched and typically have only a few full-time staff, or a team working part-time to get the organisation off the ground. They benefit from many of the same programs as full members, and get additional coaching on organisational development from OPEN staff and other leaders around the Network.</p>
-
-{% if orgs %}
-{% for org in orgs %}
-  {% if org.category == 'startup' %}
-    {% include 'partials/orgblurb.html' %}
-  {% endif %}
-{% endfor %}
-{% endif %}
-
-{% if 0 %}
-<hr>
-<h2>Pre-Launch Organisations</h2>
-<p>Pre-Launch Organisations are groups we&rsquo;re working with to help them get started. A successful launch means having a team with executive leadership, a plan for how this organisation will make an impact, a legal entity, fundraising capabilities, and the technology and tools needed to organise. Groups on this list are either coming soon, or have just launched, and are awaiting recognition from the Core Group to move into the &ldquo;Startup&rdquo; cohort.</p>
-{% if orgs %}
-{% for org in orgs %}
-  {% if org.category == 'prelaunch' %}
-    {% include 'partials/orgblurb.html' %}
-  {% endif %}
-{% endfor %}
-{% endif %}
-{% endif %}
-
-{% if content.defining_an_open_org %}
+{% if content.full_members and not content.full_members.hidden %}
   <hr>
-  <h2 id="{{ content.defining_an_open_org.name }}">
-    {{ content.defining_an_open_org.title }}
-  </h2>
-  {{ content.defining_an_open_org.contents|safe }}
+  {% with %}
+    {% set block = content.full_members %}
+    <h2 id="{{ block.name }}">
+      {{ block.title }}
+    </h2>
+    {{ block.contents|safe }}
+  {% endwith %}
+
+  {% if orgs %}
+    {% for org in orgs %}
+      {% if org.category == 'startup' %}
+        {% include 'partials/orgblurb.html' %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
 {% endif %}
 
+{% if content.startup_organisations and not content.startup_organisations.hidden %}
+  <hr>
+  {% with %}
+    {% set block = content.startup_organisations %}
+    <h2 id="{{ block.name }}">
+      {{ block.title }}
+    </h2>
+    {{ block.contents|safe }}
+  {% endwith %}
+
+  {% if orgs %}
+    {% for org in orgs %}
+      {% if org.category == 'startup' %}
+        {% include 'partials/orgblurb.html' %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+{% endif %}
+
+{% if content.prelaunch and not content.prelaunch.hidden %}
+  <hr>
+  {% with %}
+    {% set block = content.prelaunch %}
+    <h2 id="{{ block.name }}">
+      {{ block.title }}
+    </h2>
+    {{ block.contents|safe }}
+  {% endwith %}
+
+  {% if orgs %}
+    {% for org in orgs %}
+      {% if org.category == 'startup' %}
+        {% include 'partials/orgblurb.html' %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+{% endif %}
+
+{% if content.defining_an_open_org and not content.defining_an_open_org.hidden %}
 <hr>
-<a name="feed"></a>
-<h2>What They&rsquo;re Doing Now</h2>
+{% with %}
+  {% set block = content.defining_an_open_org %}
+  <h2 id="{{ block.name }}">
+    {{ block.title }}
+  </h2>
+  {{ block.contents|safe }}
+{% endwith %}
+{% endif %}
+
+{% if content.social_feeds and not content.social_feeds.hidden %}
+<hr>
+{% with %}
+  {% set block = content.social_feeds %}
+  <h2 id="{{ block.name }}">
+    {{ block.title }}
+  </h2>
+  {{ block.contents|safe }}
+{% endwith %}
+
+
 <div class="row">
   <div class="col-md-6">
     <div class="fb-page" data-href="https://www.facebook.com/progressiveengegement/"
@@ -82,6 +125,7 @@
     </div>
   </div>
 </div>
+{% endif %}
 <!-- hr>
 <a name="features"></a>
 <h2>Feature Stories</h2-->

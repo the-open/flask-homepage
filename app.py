@@ -10,7 +10,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI'
 app.config.from_object('settings_default')
 app.config.from_envvar('SITE_SETTINGS', silent=True)
 
-
 db = SQLAlchemy(app)
 
 class Staff(db.Model):
@@ -26,6 +25,7 @@ class Staff(db.Model):
     email = db.Column(db.String(80), nullable=True)
     description = db.Column(db.Text, nullable=True)
     order = db.Column(db.Integer, nullable=True)
+    hidden = db.Column(db.Boolean, default=False)
 
 class Organisation(db.Model):
     __tablename__ = 'organisation'
@@ -43,6 +43,7 @@ class Organisation(db.Model):
     url = db.Column(db.String(80), nullable=True)
     logo = db.Column(db.String(120), nullable=True)
     coordinates = db.Column(db.String(80), nullable=True)
+    hidden = db.Column(db.Boolean, default=False)
 
 class ContentBlock(db.Model):
     __tablename__ = 'content_block'
@@ -54,22 +55,21 @@ class ContentBlock(db.Model):
     title = db.Column(db.String(200), nullable=True)
     image = db.Column(db.String(200), nullable=True)
     contents = db.Column(db.Text, default="")
+    hidden = db.Column(db.Boolean, default=False)
 
     @classmethod
     def all(cls):
         blocks = cls.query.all()
         res = {}
         for block in blocks:
-            res[block.name] = {}
-            for key, value in block:
-                res[block.name][key] = value
+            res[block.name] = {
+                'name': block.name,
+                'title': block.title,
+                'image': block.image,
+                'contents': block.contents,
+                'hidden': block.hidden,
+            }
         return res
-
-#class Country(db.Model):
-#   id = db.Column(db.Text, primary_key=True)
-#   created_at = db.Column(db.DateTime, default="current_timestamp")
-#   updated_at = db.Column(db.DateTime, onupdate="current_timestamp")
-
 
 site = {
         'domainroot': 'https://sheltered-mountain-64816.herokuapp.com',
@@ -121,19 +121,30 @@ class StaffView(ModelView):
     create_template = 'admin/ck-create.html'
     edit_template = 'admin/ck-edit.html'
     form_excluded_columns = ['created_at', 'updated_at']
+    column_exclude_list = ['created_at', 'updated_at']
 
 class OrganisationView(ModelView):
     form_widget_args = dict(description={'class': 'form-control ckeditor'})
     create_template = 'admin/ck-create.html'
     edit_template = 'admin/ck-edit.html'
     form_excluded_columns = ['created_at', 'updated_at']
+    column_exclude_list = ['created_at', 'updated_at']
+
+    form_choices = {
+        'category': [
+            ('core', 'Founder (the big 5)'),
+            ('full', 'Full member'),
+            ('startup', 'Startup organisation'),
+            ('prelaunch', 'Pre-launch or prospect'),
+        ]
+    }
 
 class ContentBlockView(ModelView):
     form_widget_args = dict(contents={'class': 'form-control ckeditor'})
     create_template = 'admin/ck-create.html'
     edit_template = 'admin/ck-edit.html'
-    form_excluded_columns = ['created_at', 'updated_at']
-
+    form_excluded_columns = ['created_at', 'updated_at', 'name']
+    column_exclude_list = ['created_at', 'updated_at', 'name']
 
 admin.add_view(StaffView(Staff, db.session))
 admin.add_view(OrganisationView(Organisation, db.session))
