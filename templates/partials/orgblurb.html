@@ -11,6 +11,6 @@
       <a href="{{ org.url }}" title="{{ org.title }}">{{ org.url }}</a>
     </span>
   </h3>
-  {{ org.description|striptags }}
+  {{ org.description|safe }}
 </p>
 {% endif %}

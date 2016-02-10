@@ -47,9 +47,9 @@
 </div>
   <hr>
   <h2>Our Team</h2>
-  {% for person in site.staff %}
+  {% for person in staff %}
   <h3>{{ person.name }} <span class="small">{{ person.location }}</span></h3>
   <p class="aside"><em>{{ person.title }}, {{ person.email }}</em></p>
-  <p>{{ person.description }}<p>
+  <p>{{ person.description|safe }}<p>
   {% endfor %}
 {% endblock %}
